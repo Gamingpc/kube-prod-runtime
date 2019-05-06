@@ -150,6 +150,32 @@ Kibana connects to the Elasticsearch cluster via the `elasticsearch-logging` Kub
 
 Kibana is a stateless component and therefore does not have any persistent storage requirements.
 
+#### Customization
+
+##### Kibana plug-ins
+
+Add-on functionality for Kibana is implemented with plug-in modules. Some known plug-ins for Kibana are listed here: https://www.elastic.co/guide/en/kibana/6.7/known-plugins.html.
+
+To install additional plug-ins, override the `plugins` item inside the `kibana` scope, like this:
+
+```jsonnet
+(import "../../manifests/platforms/aks.jsonnet") {
+    config:: import "kubeprod-autogen.json",
+    kibana+: {
+        plugins+: {
+            logtrail: {
+                version: "0.1.31",
+                url: "https://github.com/sivasamyk/logtrail/releases/download/v0.1.31/logtrail-6.7.1-0.1.31.zip",
+            },
+            "analyze-api-ui-plugin": {
+                version: "6.7.1",
+                url: "https://github.com/johtani/analyze-api-ui-plugin/releases/download/6.7.1/analyze-api-ui-plugin-6.7.1.zip",
+            },
+        },
+    },
+}
+```
+
 ## Monitoring stack
 ### Prometheus
 
